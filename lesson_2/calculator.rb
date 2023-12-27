@@ -20,7 +20,7 @@ def operation_to_message(op)
 end
 
 prompt("Welcome to Calculator! Enter your name:")
-  
+
 name = ''
 loop do
   name = gets.chomp
@@ -34,7 +34,6 @@ end
 prompt("Hello, #{name},")
 
 loop do # main loop
-
   puts
 
   number1 = nil
@@ -62,10 +61,10 @@ loop do # main loop
   end
 
   operator_prompt = <<-MSG
-  What operation would you like to perform? 
-  1) add 
-  2) subtract 
-  3) multiply 
+  What operation would you like to perform?#{' '}
+  1) add#{' '}
+  2) subtract#{' '}
+  3) multiply#{' '}
   4) divide
   MSG
   prompt(operator_prompt)
@@ -92,11 +91,11 @@ loop do # main loop
               number1.to_i * number2.to_i
             when '4'
               number1.to_f / number2.to_f
-  end
+            end
 
   prompt("The result is #{result}")
 
-  prompt("Would you like to perform another calculation? (Y to calculate again)")
+  prompt("Would you like to perform another calculation? (Y/N)")
   answer = gets.chomp
   break unless answer.downcase.start_with?('y')
 end
