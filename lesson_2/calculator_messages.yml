@@ -1,0 +1,5 @@
+# Messages for calculator program
+
+welcome: "Welcome to Calculator! Enter your name:"
+valid_name: "Make sure to use a valid name."
+hello: "Hello, %s."

@@ -1,41 +1,45 @@
+require 'yaml'
+
 def prompt(message)
   puts("=> #{message}")
 end
 
 def valid_number?(num)
-  num.to_i != 0
+integer?(num) || float?(num)
 end
 
-def operation_to_message(op)
-  case op
-  when '1'
-    'Adding'
-  when '2'
-    'Subtracting'
-  when '3'
-    'Multiplying'
-  when '4'
-    'Dividing'
-  end
+def integer?(num)
+  num.to_i.to_s == num
 end
 
-prompt("Welcome to Calculator! Enter your name:")
+def float?(num)
+  num.to_f.to_s == num
+end
+
+MESSAGES = YAML.load_file('calculator_messages.yml')
+
+OPERATIONS = {
+  '1' => 'Adding',
+  '2' => 'Subtracting',
+  '3' => 'Multiplying',
+  '4' => 'Dividing'
+}
+
+prompt(MESSAGES['welcome'])
 
 name = ''
 loop do
   name = gets.chomp
   if name.empty?
-    prompt("Make sure to use a valid name.")
+    prompt(MESSAGES['valid_name'])
   else
     break
   end
 end
 
-prompt("Hello, #{name},")
+prompt(sprintf(MESSAGES['hello'], name))
 
 loop do # main loop
-  puts
-
   number1 = nil
   number2 = nil
 
@@ -61,10 +65,10 @@ loop do # main loop
   end
 
   operator_prompt = <<-MSG
-  What operation would you like to perform?#{' '}
-  1) add#{' '}
-  2) subtract#{' '}
-  3) multiply#{' '}
+  What operation would you like to perform?
+  1) add
+  2) subtract
+  3) multiply
   4) divide
   MSG
   prompt(operator_prompt)
@@ -80,7 +84,7 @@ loop do # main loop
     end
   end
 
-  prompt("#{operation_to_message(operator)} the two numbers...")
+  prompt("#{OPERATIONS[operator]} the two numbers...")
 
   result =  case operator
             when '1'
