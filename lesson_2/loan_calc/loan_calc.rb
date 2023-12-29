@@ -8,8 +8,7 @@ def calc_monthly_payment(loan_amount, loan_duration, apr,
   else
     loan_duration_in_months = loan_duration * 12
   end
-  amortization_factor = (monthly_interest /
-          (1 - ((1 + monthly_interest)**(-loan_duration_in_months))))
+  amortization_factor = (monthly_interest / (1 - ((1 + monthly_interest)**(-loan_duration_in_months))))
   (loan_amount * amortization_factor).round(2)
 end
 
