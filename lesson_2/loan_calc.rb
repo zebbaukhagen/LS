@@ -1,13 +1,15 @@
 require 'yaml'
 
-def calculate_monthly_payment(loan_amount, loan_duration, apr, measured_in_months=false)
-  monthly_interest = (apr.to_f / 100) / 12
+def calculate_monthly_payment(loan_amount, loan_duration, apr,
+                              measured_in_months: false)
+  monthly_interest = (apr / 100) / 12
   if measured_in_months
     loan_duration_in_months = loan_duration
   else
     loan_duration_in_months = loan_duration * 12
   end
-  amortization_factor = (monthly_interest / (1 - (1 + monthly_interest)**(-loan_duration_in_months)))
+  amortization_factor = (monthly_interest /
+          (1 - ((1 + monthly_interest)**(-loan_duration_in_months))))
   (loan_amount * amortization_factor).round(2)
 end
 
@@ -16,7 +18,7 @@ def valid_number?(integer)
 end
 
 def prompt(message)
-  puts ("=> #{message}")
+  puts("=> #{message}")
 end
 
 def input_to_language(string)
@@ -38,10 +40,10 @@ def input_to_language(string)
 end
 
 LANGUAGES = {
-  English:  'En',
-  French:   'Fr',
-  Spanish:  'Es',
-  German:   'De',
+  English: 'En',
+  French: 'Fr',
+  Spanish: 'Es',
+  German: 'De',
   Japanese: 'Ni'
 }
 
@@ -67,65 +69,66 @@ loop do
   puts language_select
   input = gets.chomp
   if %w(1 2 3 4 5).include?(input)
-    lang_pref     = input_to_language(input)
-    prompt(MESSAGES[lang_pref]    ['greeting'])
+    lang_pref = input_to_language(input)
+    prompt(MESSAGES[lang_pref]['greeting'])
     break
   end
 end
 
 loop do # Main loop
-
   loop do # Get loan total
-    prompt(MESSAGES[lang_pref]    ['total_loan_amount'])
+    prompt(MESSAGES[lang_pref]['total_loan_amount'])
     input = gets.chomp
     if valid_number?(input)
       loan_amount = input.to_i
       break
     else
-      prompt(MESSAGES[lang_pref]    ['invalid_number'])
+      prompt(MESSAGES[lang_pref]['invalid_number'])
     end
   end
 
- # Get loan duration unit
-  prompt(MESSAGES[lang_pref]    ['get_unit'])
+  # Get loan duration unit
+  prompt(MESSAGES[lang_pref]['get_unit'])
   input = gets.chomp.downcase
-  if %q('yosj').include?(input)
+  # 'yosj' are the different choices that stand for yes in the different
+  if "'yosj'".include?(input)
     measured_in_months = true
   end
 
   loop do # Get loan duration
     if measured_in_months
-      prompt(MESSAGES[lang_pref]    ['measured_months'])
+      prompt(MESSAGES[lang_pref]['measured_months'])
     else
-      prompt(MESSAGES[lang_pref]    ['measured_years'])
+      prompt(MESSAGES[lang_pref]['measured_years'])
     end
-  input = gets.chomp
+    input = gets.chomp
     if valid_number?(input)
       loan_duration = input.to_i
       break
     else
-      prompt(MESSAGES[lang_pref]    ['invalid_number'])
+      prompt(MESSAGES[lang_pref]['invalid_number'])
     end
   end
 
   loop do # Get APR
-    prompt(MESSAGES[lang_pref]    ['get_apr'])
+    prompt(MESSAGES[lang_pref]['get_apr'])
     input = gets.chomp
     if valid_number?(input)
-      apr = input.to_i
+      apr = input.to_f
       break
     else
-      prompt(MESSAGES[lang_pref]    ['invalid_number'])
+      prompt(MESSAGES[lang_pref]['invalid_number'])
     end
   end
 
-  prompt(MESSAGES[lang_pref]    ['calculating'])
-  monthly_payments = calculate_monthly_payment(loan_amount, loan_duration, apr, measured_in_months)
-  prompt(sprintf(MESSAGES[lang_pref]    ['result'], monthly_payments))
+  prompt(MESSAGES[lang_pref]['calculating'])
+  monthly_payments = calculate_monthly_payment(loan_amount, loan_duration, apr,
+                                               measured_in_months)
+  prompt(format(MESSAGES[lang_pref]['result'], monthly_payments))
 
-  prompt(MESSAGES[lang_pref]    ['calc_again'])
+  prompt(MESSAGES[lang_pref]['calc_again'])
   input = gets.chomp.downcase
-  unless %q('yosj').include?(input)
+  unless "'yosj'".include?(input)
     break
   end
 end
