@@ -123,7 +123,7 @@ loop do # Main loop
 
   prompt(MESSAGES[lang_pref]['calculating'])
   monthly_payments = calculate_monthly_payment(loan_amount, loan_duration, apr,
-                                               measured_in_months)
+                                               measured_in_months: measured_in_months)
   prompt(format(MESSAGES[lang_pref]['result'], monthly_payments))
 
   prompt(MESSAGES[lang_pref]['calc_again'])
