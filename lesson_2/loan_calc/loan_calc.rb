@@ -1,9 +1,9 @@
 require 'yaml'
 
-def calculate_monthly_payment(loan_amount, loan_duration, apr,
-                              measured_in_months: false)
+def calc_monthly_payment(loan_amount, loan_duration, apr,
+                         measure_in_months: false)
   monthly_interest = (apr / 100) / 12
-  if measured_in_months
+  if measure_in_months
     loan_duration_in_months = loan_duration
   else
     loan_duration_in_months = loan_duration * 12
@@ -47,13 +47,12 @@ LANGUAGES = {
   Japanese: 'Ni'
 }
 
-lang_pref     = ''
-input         = nil
-
+lang_pref               = ''
+input                   = nil
 loan_amount             = nil
 loan_duration           = nil
-measured_in_months      = nil
-apr                     = nil
+measure_in_months = nil
+apr = nil
 
 MESSAGES = YAML.load_file('loan_calc_msgs.yml')
 
@@ -91,12 +90,12 @@ loop do # Main loop
   prompt(MESSAGES[lang_pref]['get_unit'])
   input = gets.chomp.downcase
   # 'yosj' are the different choices that stand for yes in the different
-  if "'yosj'".include?(input)
-    measured_in_months = true
+  if 'yosj'.include?(input)
+    measure_in_months = true
   end
 
   loop do # Get loan duration
-    if measured_in_months
+    if measure_in_months
       prompt(MESSAGES[lang_pref]['measured_months'])
     else
       prompt(MESSAGES[lang_pref]['measured_years'])
@@ -122,13 +121,13 @@ loop do # Main loop
   end
 
   prompt(MESSAGES[lang_pref]['calculating'])
-  monthly_payments = calculate_monthly_payment(loan_amount, loan_duration, apr,
-                                               measured_in_months: measured_in_months)
+  monthly_payments = calc_monthly_payment(loan_amount, loan_duration, apr,
+                                          measure_in_months: measure_in_months)
   prompt(format(MESSAGES[lang_pref]['result'], monthly_payments))
 
   prompt(MESSAGES[lang_pref]['calc_again'])
   input = gets.chomp.downcase
-  unless "'yosj'".include?(input)
+  unless 'yosj'.include?(input)
     break
   end
 end
