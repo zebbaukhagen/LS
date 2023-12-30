@@ -12,8 +12,12 @@ def calc_monthly_payment(loan_amount, loan_duration, apr,
   (loan_amount * amortization_factor).round(2)
 end
 
-def valid_number?(integer)
-  (integer.to_i.to_s == integer || integer.to_f.to_s == integer) && integer.to_i > 0
+def valid_float?(number)
+  number.to_f.to_s == number && number.to_f > 0
+end
+
+def valid_integer?(number)
+  number.to_i.to_s == number && number.to_i > 0
 end
 
 def prompt(message)
@@ -44,6 +48,14 @@ LANGUAGES = {
   Spanish: 'Es',
   German: 'De',
   Japanese: 'Ni'
+}
+
+LANG_CONSENT = {
+  'En' => 'y',
+  'Fr' => 'o',
+  'Es' => 's',
+  'De' => 'j',
+  'Ni' => 'y'
 }
 
 lang_pref               = ''
@@ -77,7 +89,7 @@ loop do # Main loop
   loop do # Get loan total
     prompt(MESSAGES[lang_pref]['total_loan_amount'])
     input = gets.chomp
-    if valid_number?(input)
+    if valid_integer?(input)
       loan_amount = input.to_i
       break
     else
@@ -88,10 +100,7 @@ loop do # Main loop
   # Get loan duration unit
   prompt(MESSAGES[lang_pref]['get_unit'])
   input = gets.chomp.downcase
-  # 'yosj' are the different choices that stand for yes in the different
-  if 'yosj'.include?(input)
-    measure_in_months = true
-  end
+  measure_in_months = (LANG_CONSENT[lang_pref] == input ? true : false)
 
   loop do # Get loan duration
     if measure_in_months
@@ -100,7 +109,7 @@ loop do # Main loop
       prompt(MESSAGES[lang_pref]['measured_years'])
     end
     input = gets.chomp
-    if valid_number?(input)
+    if valid_integer?(input)
       loan_duration = input.to_i
       break
     else
@@ -111,12 +120,18 @@ loop do # Main loop
   loop do # Get APR
     prompt(MESSAGES[lang_pref]['get_apr'])
     input = gets.chomp
-    if valid_number?(input)
-      apr = input.to_f
-      break
+    if input.include?('.')
+      if valid_float?(input)
+        apr = input.to_f
+        break
+      end
     else
-      prompt(MESSAGES[lang_pref]['invalid_number'])
+      if valid_integer?(input)
+        apr = input.to_f
+        break
+      end
     end
+    prompt(MESSAGES[lang_pref]['invalid_number'])
   end
 
   prompt(MESSAGES[lang_pref]['calculating'])
@@ -126,7 +141,7 @@ loop do # Main loop
 
   prompt(MESSAGES[lang_pref]['calc_again'])
   input = gets.chomp.downcase
-  unless 'yosj'.include?(input)
+  unless LANG_CONSENT[lang_pref] == input
     break
   end
 end
