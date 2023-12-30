@@ -2,7 +2,7 @@
 
 'En':
   greeting:           "Hello, welcome to Loan Calculator."
-  total_loan_amount:  "What is your total loan amount in USD?"
+  total_loan_amount:  "What is your total loan amount in USD? No symbols, i.e. 10000"
   invalid_number:     "That isn't a valid amount. Try a positive number."
   get_unit:           "Is your loan measured in months? Enter 'y' for yes, any for no. (y/any)"
   measured_months:    "What is your loan duration in months?"
@@ -14,7 +14,7 @@
 
 'Fr':
   greeting:           "Bonjour, bienvenue au calculateur de prêts."
-  total_loan_amount:  "Quel est le montant total de votre prêt en USD?"
+  total_loan_amount:  "Quel est le montant total de votre prêt en USD? Par exemple 10000"
   invalid_number:     "Ce montant n'est pas valide. Essayez un nombre entier positif."
   get_unit:           "Votre prêt est-il mesuré en mois ? Entrez 'o' pour oui, n'importe quel pour non. (o/any)"
   measured_months:    "Quelle est la durée de votre prêt en mois?"
@@ -26,7 +26,7 @@
 
 'Es':
   greeting:           "Hola, bienvenido al calculador de préstamos."
-  total_loan_amount:  "¿Cuál es el monto total de su préstamo en USD?"
+  total_loan_amount:  "¿Cuál es el monto total de su préstamo en USD? Por ejemplo, 10000"
   invalid_number:     "Esa no es una cantidad válida. Intente un número entero positivo."
   get_unit:           "¿Su préstamo se mide en meses? Ingrese 's' para sí, cualquier otro para no. (s/any)"
   measured_months:    "¿Cuál es la duración de su préstamo en meses?"
@@ -38,7 +38,7 @@
 
 'De':
   greeting:           "Hallo, willkommen beim Kreditrechner."
-  total_loan_amount: "Wie hoch ist der Gesamtbetrag Ihres Darlehens in USD?"
+  total_loan_amount: "Wie hoch ist der Gesamtbetrag Ihres Darlehens in USD? z.B. 10000"
   invalid_number:     "Das ist kein gültiger Betrag. Versuchen Sie eine positive ganze Zahl."
   get_unit:           "Wird Ihr Darlehen in Monaten gemessen? Geben Sie 'j' für ja ein, beliebig für nein. (j/any)"
   measured_months:    "Wie lange ist die Laufzeit Ihres Darlehens in Monaten?"
@@ -50,7 +50,7 @@
 
 'Ni':
   greeting:           "こんにちは、ローン計算機へようこそ。"
-  total_loan_amount: "あなたのローンの総額はUSDでいくらですか?"
+  total_loan_amount: "あなたのローンの総額はUSDでいくらですか? 例えば10000"
   invalid_number:     "それは有効な金額ではありません。正の整数を試してください。"
   get_unit:           "あなたのローンは月単位ですか？'y'を入力してください。それ以外はいいえ。(y/any)"
   measured_months:    "ローンの期間は何ヶ月ですか？"
