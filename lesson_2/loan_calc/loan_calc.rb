@@ -39,6 +39,7 @@ def calc_monthly_payment(loan_amount, loan_duration, apr,
   else
     loan_duration_in_months = loan_duration * 12
   end
+  return (loan_amount.fdiv(loan_duration_in_months)).round(2) if apr == 0
   amortization_factor = (monthly_interest /
                         (1 - ((1 + monthly_interest)**
                         (-loan_duration_in_months))))
@@ -106,7 +107,9 @@ def get_apr
   loop do
     prompt(MESSAGES[LANG_PREF]['get_apr'])
     input = gets.chomp
-    return input.to_f if valid_float?(input) || valid_integer?(input)
+    if valid_float?(input) || valid_integer?(input) || input.to_i == 0
+      return input.to_f
+    end
     prompt(MESSAGES[LANG_PREF]['invalid_number'])
   end
 end
