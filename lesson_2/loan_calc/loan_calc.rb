@@ -13,7 +13,7 @@ def calc_monthly_payment(loan_amount, loan_duration, apr,
 end
 
 def valid_number?(integer)
-  integer.to_i.to_s == integer && integer.to_i > 0
+  (integer.to_i.to_s == integer || integer.to_f.to_s == integer) && integer.to_i > 0
 end
 
 def prompt(message)
