@@ -8,7 +8,8 @@ def calc_monthly_payment(loan_amount, loan_duration, apr,
   else
     loan_duration_in_months = loan_duration * 12
   end
-  amortization_factor = (monthly_interest / (1 - ((1 + monthly_interest)**(-loan_duration_in_months))))
+  amortization_factor = (monthly_interest /
+          (1 - ((1 + monthly_interest)**(-loan_duration_in_months))))
   (loan_amount * amortization_factor).round(2)
 end
 
@@ -62,8 +63,8 @@ lang_pref               = ''
 input                   = nil
 loan_amount             = nil
 loan_duration           = nil
-measure_in_months = nil
-apr = nil
+measure_in_months       = nil
+apr                     = nil
 
 MESSAGES = YAML.load_file('loan_calc_msgs.yml')
 
@@ -100,7 +101,7 @@ loop do # Main loop
   # Get loan duration unit
   prompt(MESSAGES[lang_pref]['get_unit'])
   input = gets.chomp.downcase
-  measure_in_months = (LANG_CONSENT[lang_pref] == input ? true : false)
+  measure_in_months = (LANG_CONSENT[lang_pref] == input)
 
   loop do # Get loan duration
     if measure_in_months
@@ -125,11 +126,9 @@ loop do # Main loop
         apr = input.to_f
         break
       end
-    else
-      if valid_integer?(input)
-        apr = input.to_f
-        break
-      end
+    elsif valid_integer?(input)
+      apr = input.to_f
+      break
     end
     prompt(MESSAGES[lang_pref]['invalid_number'])
   end
