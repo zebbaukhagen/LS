@@ -26,7 +26,7 @@ apr                     = nil
 language_select = <<-HERE
 1)  English
 2)  Française
-3)  Española
+3)  Español
 4)  Deutsch
 5)  日本語
 HERE
