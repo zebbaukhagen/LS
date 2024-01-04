@@ -1,45 +1,87 @@
-VALID_CHOICES = %w(rock paper scissors)
+VALID_CHOICES = %w((r)ock (p)aper (sc)issors (l)izard (sp)ock)
+
+WIN_AGAINST = {
+  'rock' => ['scissors', 'lizard'],
+  'paper' => ['rock', 'spock'],
+  'scissors' => ['paper', 'lizard'],
+  'lizard' => ['paper', 'spock'],
+  'spock' => ['rock', 'scissors']
+}
+
+ABBREVIATIONS = {
+  'r' => 'rock',
+  'p' => 'paper',
+  'sc' => 'scissors',
+  'l' => 'lizard',
+  'sp' => 'spock'
+}
 
 def prompt(message)
   puts "=> #{message}"
 end
 
 def win?(player1, player2)
-  (player1 == 'rock' && player2 == 'scissors') ||
-    (player1 == 'paper' && player2 == 'rock') ||
-    (player1 == 'scissors' && player2 == 'paper')
+  WIN_AGAINST[player1].include?(player2)
 end
 
-def display_results(player, computer)
+def determine_results(player, computer)
   if win?(player, computer)
-    prompt("You won!")
+    'player'
   elsif win?(computer, player)
+    'computer'
+  else
+    'neither'
+  end
+end
+
+def display_results(winner)
+  if winner == 'player'
+    prompt("You won!")
+  elsif winner == 'computer'
     prompt("Computer won!")
   else
     prompt("It's a tie!")
   end
 end
 
-loop do
-  choice = ''
+def get_choice
+  user_choice = ''
   loop do
     prompt("Choose one: #{VALID_CHOICES.join(', ')}")
-    choice = gets.chomp
+    user_choice = gets.chomp.downcase
 
-    if VALID_CHOICES.include?(choice)
-      break
-    else
-      prompt("That isn't a valid choice.")
+    return ABBREVIATIONS[user_choice] if ABBREVIATIONS.include?(user_choice)
+    if VALID_CHOICES.any? {|choice| choice.delete('()') == user_choice}
+      return user_choice
     end
+    prompt("That isn't a valid choice.")
   end
+end
 
-  computer_choice = VALID_CHOICES.sample
+loop do
+  player_wins = 0
+  computer_wins = 0
+  round = 1
 
-  prompt("You chose: #{choice}; Computer chose: #{computer_choice}")
+  until player_wins == 3 || computer_wins == 3
+    puts "~Round #{round}~ Player: #{player_wins} | Computer: #{computer_wins}"
+    choice = get_choice
 
-  display_results(choice, computer_choice)
+    computer_choice = VALID_CHOICES.sample.delete('()')
 
-  prompt "Do you want to play again?"
+    prompt("You chose: #{choice}; Computer chose: #{computer_choice}")
+
+    winner = determine_results(choice, computer_choice)
+    display_results(winner)
+    (player_wins += 1) if winner == 'player'
+    (computer_wins += 1) if winner == 'computer'
+
+    round += 1
+  end
+  prompt("~Match over!~")
+  prompt("#{winner.capitalize} won the match!")
+
+  prompt "Do you want to keep playing? (y/n)"
   answer = gets.chomp
   break unless answer.downcase.start_with?('y')
 end
