@@ -63,30 +63,52 @@ def valid_choice?(user_choice)
   VALID_CHOICES.any? { |choice| choice.delete('()') == user_choice }
 end
 
-loop do # Main Loop
-  player_wins = 0
-  computer_wins = 0
-  round = 1
-
-  until player_wins == 3 || computer_wins == 3
-    puts "~Round #{round}~ Player: #{player_wins} | Computer: #{computer_wins}"
-    choice = get_choice
-
-    computer_choice = VALID_CHOICES.sample.delete('()')
-
-    prompt("You chose: #{choice}; Computer chose: #{computer_choice}")
-
-    winner = determine_results(choice, computer_choice)
-    display_results(winner)
-    (player_wins += 1) if winner == 'player'
-    (computer_wins += 1) if winner == 'computer'
-
-    round += 1
+def increment_score(winner, game_stats)
+  case winner
+  when 'player'
+    game_stats[:player_score] += 1
+  when 'computer'
+    game_stats[:computer_score] += 1
   end
-  prompt("~Match over!~")
+  game_stats[:round] += 1 
+end
+
+def play_round(game_stats)
+  choice = get_choice
+  computer_choice = VALID_CHOICES.sample.delete('()')
+
+  prompt("You chose: #{choice}; Computer chose: #{computer_choice}")
+
+  winner = determine_results(choice, computer_choice)
+  display_results(winner)
+  increment_score(winner, game_stats)
+  return winner
+end
+
+def refresh_game_prompt(game_stats)
+  game_prompt = <<MSG
+~~~~Round #{game_stats[:round]}~~~~
+Player: #{game_stats[:player_score]} 
+Computer: #{game_stats[:computer_score]}
+MSG
+end
+
+game_stats = {
+  player_score:   0,
+  computer_score: 0,
+  round:          1
+}
+
+loop do # Main Loop
+  until game_stats[:player_score] == 3 || game_stats[:computer_score] == 3
+    game_prompt = refresh_game_prompt(game_stats)
+    puts game_prompt
+    winner = play_round(game_stats)
+  end
+  prompt("~~~~Match over!~~~~")
   prompt("#{winner.capitalize} won the match!")
 
   prompt "Do you want to keep playing? (y/n)"
-  answer = gets.chomp
-  break unless answer.downcase.start_with?('y')
+  answer = get_user_input
+  break unless answer.start_with?('y')
 end
