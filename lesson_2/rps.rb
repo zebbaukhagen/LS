@@ -111,6 +111,20 @@ end
 
 game_stats = reset_game_stats
 
+intro = <<MSG
+Welcome to Rock, Paper, Scissors, Lizard, Spock!
+This is a twist on the classic which adds some variety.
+=> Rock beats scissors and lizard
+=> Paper beats rock and spock
+=> Scissors beats paper and lizard
+=> Lizard beats paper and spock
+=> Spock beats rock and scissors
+Are you ready to play? Enter any key:
+MSG
+
+puts(intro)
+
+get_user_input
 # clear screen before play starts
 clear_screen
 
