@@ -24,16 +24,6 @@ def win?(player1, player2)
   WINS_AGAINST[player1].include?(player2)
 end
 
-def determine_results(player, computer)
-  if win?(player, computer)
-    'player'
-  elsif win?(computer, player)
-    'computer'
-  else
-    'neither'
-  end
-end
-
 def display_results(winner)
   if winner == 'player'
     prompt("You won!")
@@ -44,17 +34,21 @@ def display_results(winner)
   end
 end
 
+def determine_results(player, computer)
+  if win?(player, computer)
+    'player'
+  elsif win?(computer, player)
+    'computer'
+  else
+    'neither'
+  end
+end
+
 def get_user_input
   gets.chomp.downcase
 end
 
-def valid_choice?(user_choice)
-  ABBREVIATIONS.include?(user_choice) || 
-  VALID_CHOICES.any? { |choice| choice.delete('()') == user_choice }
-end
-
 def get_choice
-  user_choice = ''
   loop do
     prompt("Choose one: #{VALID_CHOICES.join(', ')}")
     user_choice = get_user_input
@@ -64,7 +58,12 @@ def get_choice
   end
 end
 
-loop do
+def valid_choice?(user_choice)
+  ABBREVIATIONS.include?(user_choice) || 
+  VALID_CHOICES.any? { |choice| choice.delete('()') == user_choice }
+end
+
+loop do # Main Loop
   player_wins = 0
   computer_wins = 0
   round = 1
