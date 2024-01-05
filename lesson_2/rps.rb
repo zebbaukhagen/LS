@@ -1,6 +1,6 @@
 VALID_CHOICES = %w((r)ock (p)aper (sc)issors (l)izard (sp)ock)
 
-WIN_AGAINST = {
+WINS_AGAINST = {
   'rock' => ['scissors', 'lizard'],
   'paper' => ['rock', 'spock'],
   'scissors' => ['paper', 'lizard'],
@@ -21,7 +21,7 @@ def prompt(message)
 end
 
 def win?(player1, player2)
-  WIN_AGAINST[player1].include?(player2)
+  WINS_AGAINST[player1].include?(player2)
 end
 
 def determine_results(player, computer)
@@ -44,16 +44,22 @@ def display_results(winner)
   end
 end
 
+def get_user_input
+  gets.chomp.downcase
+end
+
+def valid_choice?(user_choice)
+  ABBREVIATIONS.include?(user_choice) || 
+  VALID_CHOICES.any? { |choice| choice.delete('()') == user_choice }
+end
+
 def get_choice
   user_choice = ''
   loop do
     prompt("Choose one: #{VALID_CHOICES.join(', ')}")
-    user_choice = gets.chomp.downcase
-
-    return ABBREVIATIONS[user_choice] if ABBREVIATIONS.include?(user_choice)
-    if VALID_CHOICES.any? {|choice| choice.delete('()') == user_choice}
-      return user_choice
-    end
+    user_choice = get_user_input
+    choice = ABBREVIATIONS[user_choice] || user_choice
+    return choice if valid_choice?(choice)
     prompt("That isn't a valid choice.")
   end
 end
