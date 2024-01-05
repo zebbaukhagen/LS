@@ -1,5 +1,3 @@
-require 'pry'
-
 VALID_CHOICES = %w((r)ock (p)aper (sc)issors (l)izard (sp)ock)
 
 CHOICES = {
@@ -11,14 +9,11 @@ CHOICES = {
 }
 
 def print_in_box(string)
-  row = (' ' * (string.size + 2)).center(string.size + 4, '|')
-  cap = ('-' * (string.size + 2)).center(string.size + 4, '+')
-
-  puts cap
-  puts row
-  puts '|' + "#{string}".center(string.size + 2) + '|'
-  puts row
-  puts cap
+  puts ('-' * (string.size + 2)).center(string.size + 4, '+')
+  puts (' ' * (string.size + 2)).center(string.size + 4, '|')
+  puts "|#{string.to_s.center(string.size + 2)}|"
+  puts (' ' * (string.size + 2)).center(string.size + 4, '|')
+  puts ('-' * (string.size + 2)).center(string.size + 4, '+')
 end
 
 def prompt(message)
@@ -27,6 +22,14 @@ end
 
 def clear_screen
   system('clear')
+end
+
+def get_user_input
+  gets.chomp.downcase
+end
+
+def reset_game_stats
+  { player_score: 0, computer_score: 0, round: 1 }
 end
 
 def win?(player1, player2)
@@ -58,21 +61,6 @@ def determine_results(player, computer)
   end
 end
 
-def get_user_input
-  gets.chomp.downcase
-end
-
-def get_choice
-  loop do
-    prompt("Choose one: #{VALID_CHOICES.join(', ')}")
-    user_choice = get_user_input
-    choice = find_key_by_abbreviation(user_choice)
-    choice = user_choice if choice.nil? && CHOICES.key?(user_choice)
-    return choice unless choice.nil?
-    prompt("That isn't a valid choice.")
-  end
-end
-
 def increment_score(winner, game_stats)
   case winner
   when 'player'
@@ -81,6 +69,16 @@ def increment_score(winner, game_stats)
     game_stats[:computer_score] += 1
   end
   game_stats[:round] += 1
+end
+
+def get_choice
+  loop do
+    prompt("Choose one: #{VALID_CHOICES.join(', ')}")
+    user_choice = get_user_input
+    choice = find_key_by_abbreviation(user_choice) || user_choice
+    return choice if CHOICES.key?(choice)
+    prompt("That isn't a valid choice.")
+  end
 end
 
 def play_round(game_stats)
@@ -93,7 +91,7 @@ def play_round(game_stats)
   winner = determine_results(choice, computer_choice)
   display_results(winner)
   increment_score(winner, game_stats)
-  winner
+  return winner
 end
 
 def refresh_game_prompt(game_stats)
@@ -107,15 +105,8 @@ end
 def display_match_end(winner, game_stats)
   print_in_box("~~~~Match over!~~~~")
   prompt("#{winner.capitalize} won the match!")
-  prompt("Player: #{game_stats[:player_score]} | Computer: #{game_stats[:computer_score]}")
-end
-
-def reset_game_stats
-  game_stats = {
-  player_score: 0,
-  computer_score: 0,
-  round: 1
-  }
+  prompt("Player: #{game_stats[:player_score]}")
+  prompt("Computer: #{game_stats[:computer_score]}")
 end
 
 game_stats = reset_game_stats
