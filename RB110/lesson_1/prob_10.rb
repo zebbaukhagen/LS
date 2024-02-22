@@ -14,12 +14,12 @@ munsters = {
 # the family member is in (kid, adult, or senior).
 # Your solution should produce the hash below:
 
-result = { 
+result = {
   "Herman" => { "age" => 32, "gender" => "male", "age_group" => "adult" },
   "Lily" => {"age" => 30, "gender" => "female", "age_group" => "adult" },
   "Grandpa" => { "age" => 402, "gender" => "male", "age_group" => "senior" },
   "Eddie" => { "age" => 10, "gender" => "male", "age_group" => "kid" },
-  "Marilyn" => { "age" => 23, "gender" => "female", "age_group" => "adult" } 
+  "Marilyn" => { "age" => 23, "gender" => "female", "age_group" => "adult" }
 }
 
 # the ranges are
@@ -37,7 +37,7 @@ def add_age_range(hash)
     age = value['age']
     age_group = if kid.include? age
                   'kid'
-                elsif adult.include? age
+hjklkjkk    elsif adult.include? age
                   'adult'
                 else
                   'senior'
