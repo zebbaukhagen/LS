@@ -10,12 +10,16 @@ munsters = {
 
 total_age = 0
 
-# munsters.each_key do |member|
-#   if munsters[member]["gender"] == "male"
-#     total_age += munsters[member]["age"]
-#   end
-# end
-
-munsters.each_with_object([]) do | (k, v), a |
-  a << munsters[k]["age"] if munsters[k]["gender"] == "male"
+munsters.each_key do |member|
+  if munsters[member]["gender"] == "male"
+    total_age += munsters[member]["age"]
+  end
 end
+
+munsters.each_value do |details|
+  total_male_age += details["age"] if details["gender"] == "male"
+end
+
+# munsters.each_with_object([]) do | (k, v), a |
+#   a << munsters[k]["age"] if munsters[k]["gender"] == "male"
+# end
