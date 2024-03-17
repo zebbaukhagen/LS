@@ -3,6 +3,8 @@ require 'yaml'
 ART = YAML.load_file('ttt_art.yml')
 MSGS = YAML.load_file('ttt_msgs.yml')
 
+TEXT_SPEED = 0.1
+
 =begin
 Tic tac toe CLI game
 --------------------
@@ -95,8 +97,12 @@ def clear_screen
 end
 
 def loading_screen
-  
+  ART['loading_screen'].each do |keyframe|
+    clear_screen
+    puts keyframe 
+    sleep(TEXT_SPEED)
+  end
 end
 
 clear_screen
-puts ART['ascii_art']
+loading_screen
