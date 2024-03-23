@@ -1,2 +1,40 @@
-'loading_screen':
-  frame1: 
+'main_menu': | 
+  -------------------------------
+  |  Welcome to tic tac toe!     |
+  -------------------------------
+  1. Play Game (default settings)
+  2. Custom Game
+  3. Instructions
+  4. Credit
+  5. Quit
+  -------------------------------
+'custom_game': | 
+  -------------------------------
+  |  Custom Game                 |
+  -------------------------------
+  1. Wins to victory: %s
+  2. AI difficulty:   %s
+  3. Board size:      %s
+  4. Play Game
+  5. Back
+  -------------------------------
+'instructions': | 
+  -------------------------------
+  |  Instructions                |
+  -------------------------------
+  Quit at any time by entering 'quit' or 'exit'
+
+  Default settings are: %s wins to victory, 
+                        %s AI, 
+                        %s board
+  
+  On your turn, enter the number of the cell
+  where you wish to place a piece.
+  -------------------------------
+'credit': | 
+  -------------------------------
+  |  Credit                      |
+  -------------------------------
+  Belz, 7th Ward Lord
+  All programming and design
+  -------------------------------
